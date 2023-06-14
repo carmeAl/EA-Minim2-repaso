@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/infrastructure/models/completado.dart';
 import 'package:flutter_application/infrastructure/models/grupo.dart';
 import 'package:flutter_application/infrastructure/models/grupo_populate.dart';
+import 'package:flutter_application/src/controllers/list_producto_controller.dart';
 
 import 'package:flutter_application/src/list_producto_screen.dart';
 
@@ -71,8 +72,7 @@ class ListTickets extends StatelessWidget {
                               }
                               completarTickets = false;
                               color = Colors.green;
-                              completarTicketsText =
-                                  'Deseleccionar_ticket'.tr;
+                              completarTicketsText = 'Deseleccionar_ticket'.tr;
                             } else {
                               while (
                                   i < Constants.grupoPopulate.tickets.length) {
@@ -121,7 +121,8 @@ class ListTickets extends StatelessWidget {
     bool completado = Constants.grupoPopulate.tickets
         .firstWhere((ticket) => ticket.id == grupoPopulate.tickets[index].id)
         .completado
-        .firstWhere((completado) => completado.usuario == Constants.user.id ,orElse: ()=>newCompletado(Constants.user.id,index))
+        .firstWhere((completado) => completado.usuario == Constants.user.id,
+            orElse: () => newCompletado(Constants.user.id, index))
         .completado;
     User user = grupoPopulate.users.firstWhere(
         (user) => user.id == grupoPopulate.tickets[index].anfitrion);
@@ -141,7 +142,8 @@ class ListTickets extends StatelessWidget {
                       // Navigator.pushNamed(context, '/list_producto_screen');
                       Constants.idTicketSeleccionado =
                           Constants.grupoPopulate.tickets[index].id;
-                      Constants.ticket=Constants.grupoPopulate.tickets[index];
+                      Constants.ticket = Constants.grupoPopulate.tickets[index];
+                      ListProductoController().createDataTableAsignaciones();
 
                       Navigator.push(
                           context,
@@ -227,8 +229,7 @@ class ListTickets extends StatelessWidget {
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       title: Text('confirmar'.tr),
-                                      content: Text(
-                                          'borrar_ticket'.tr),
+                                      content: Text('borrar_ticket'.tr),
                                       actions: <Widget>[
                                         TextButton(
                                           onPressed: () {
@@ -260,11 +261,18 @@ class ListTickets extends StatelessWidget {
                   )),
             ));
   }
-  Completado newCompletado(String idUser,int index){
-    Completado completado=Completado(id: "id", usuario: idUser, completado: false, createdAt: DateTime.parse("2023-05-09T06:54:07.810+00:00"), updatedAt: DateTime.parse("2023-05-09T06:54:07.810+00:00"));
+
+  Completado newCompletado(String idUser, int index) {
+    Completado completado = Completado(
+        id: "id",
+        usuario: idUser,
+        completado: false,
+        createdAt: DateTime.parse("2023-05-09T06:54:07.810+00:00"),
+        updatedAt: DateTime.parse("2023-05-09T06:54:07.810+00:00"));
     Constants.grupoPopulate.tickets
         .firstWhere((ticket) => ticket.id == grupoPopulate.tickets[index].id)
-        .completado.add(completado);
+        .completado
+        .add(completado);
     return completado;
   }
 }

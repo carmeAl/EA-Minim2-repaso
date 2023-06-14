@@ -46,14 +46,14 @@ class ListProductoScreen extends StatelessWidget {
   }
 
   bool formatoCantidad(String quantityController) {
-  final RegExp numeroRegex = RegExp(r'^[0-9]+$');
-  return !numeroRegex.hasMatch(quantityController);
+    final RegExp numeroRegex = RegExp(r'^[0-9]+$');
+    return !numeroRegex.hasMatch(quantityController);
   }
 
   bool formatototalprice(String totalpriceController) {
-  final RegExp numeroRegex = RegExp(r'^[0-9]+(\.[0-9]+)?$');
-  return !numeroRegex.hasMatch(totalpriceController);
-}
+    final RegExp numeroRegex = RegExp(r'^[0-9]+(\.[0-9]+)?$');
+    return !numeroRegex.hasMatch(totalpriceController);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,13 +65,11 @@ class ListProductoScreen extends StatelessWidget {
             const DrawerWidget(), //llamamos funcion widget _drawerWidget en la carpeta widgets
         appBar: AppBar(
           centerTitle: true,
-
           title: Text('${'productos'.tr}: ${Constants.ticket.nombre}',
               style: TextStyle(
                   fontFamily: 'aBlackLives',
                   fontSize: 30.0,
                   color: Colors.white)),
-
           shadowColor: const Color.fromRGBO(128, 119, 119, 0.973),
           backgroundColor: const Color.fromRGBO(128, 119, 119, 0.973),
           actions: [
@@ -224,14 +222,12 @@ class ListProductoScreen extends StatelessWidget {
                               } else if (formatoName(nameController.text)) {
                                 controller.updateShowErrorMessageName(true);
                                 return;
-                              }
-
-                              else if (formatoCantidad(quantityController.text)) {
+                              } else if (formatoCantidad(
+                                  quantityController.text)) {
                                 controller.updateShowErrorMessageCantidad(true);
                                 return;
-                              }
-
-                              else if (formatototalprice(totalpriceController.text)) {
+                              } else if (formatototalprice(
+                                  totalpriceController.text)) {
                                 controller.updateShowErrorMessagePrice(true);
                                 return;
                               }
@@ -262,9 +258,7 @@ class ListProductoScreen extends StatelessWidget {
                 const Divider(
                   height: 18.0,
                 ),
-
-
-                            Visibility(
+                Visibility(
                   visible: controller.showErrorMessageCantidad,
                   child: Align(
                     alignment: Alignment.centerLeft,
@@ -283,9 +277,7 @@ class ListProductoScreen extends StatelessWidget {
                 const Divider(
                   height: 18.0,
                 ),
-
-
-                  Visibility(
+                Visibility(
                   visible: controller.ShowErrorMessagePrice,
                   child: Align(
                     alignment: Alignment.centerLeft,
@@ -304,12 +296,6 @@ class ListProductoScreen extends StatelessWidget {
                 const Divider(
                   height: 18.0,
                 ),
-
-
-
-
-
-
                 Visibility(
                   visible: controller.showErrorMessage,
                   child: Align(
@@ -335,7 +321,22 @@ class ListProductoScreen extends StatelessWidget {
                   controller: _btnController,
                   child: Text('actualizar_unidades'.tr),
                 ),
-       
+                DataTable(
+                  columns: controller.headers
+                      .map(
+                        (nameUser) => DataColumn(label: Text(nameUser)),
+                      )
+                      .toList(),
+                  rows: controller.data.map((row) {
+                    return DataRow(
+                      cells: row
+                          .map(
+                            (cell) => DataCell(Text(cell.toString())),
+                          )
+                          .toList(),
+                    );
+                  }).toList(),
+                )
               ],
             ),
           )
